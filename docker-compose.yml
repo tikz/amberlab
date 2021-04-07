@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  amberlab:
+    build:
+      context: .
+      # args:
+      #   http_proxy: "http://proxy.fcen.uba.ar:8080"
+    image: "tikz/amberlab"
+    container_name: "amberlab"
+    expose: [8888]
+    volumes:
+      - ~/amberlab-shared:/home/user
+    restart: always
+    environment:
+      # http_proxy: "http://proxy.fcen.uba.ar:8080"
+
+      # uid y gid del usuario en el host para sincronizar archivos del volumen
+      MAP_UID: 1000
+      MAP_GID: 1000
