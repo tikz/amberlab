@@ -9,4 +9,4 @@ if ! [ -z "$MAP_GID" ]; then
     groupmod -g $MAP_GID user 
 fi
 
-su user -c "jupyter-lab --ip 0.0.0.0 --LabApp.token=''"
+su user -c "jupyter-lab --ip 0.0.0.0 --port=${PORT:-8888} --LabApp.token=''"
