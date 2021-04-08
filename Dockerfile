@@ -40,11 +40,15 @@ ENV SHELL /bin/bash
 COPY run.sh /run.sh
 RUN chmod +x /run.sh
 
-RUN useradd -m user
+RUN useradd -m -s /bin/bash user
 ADD default-settings/ /home/user/.jupyter
 WORKDIR /home/user
 RUN mkdir /home/user/workspace
 RUN chown -R user:user /home/user
 
+# sudo
+RUN apt-get install -y sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN usermod -aG sudo user
 
 ENTRYPOINT /run.sh
