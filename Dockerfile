@@ -24,25 +24,17 @@ RUN make
 RUN make install
 
 # JupyterLab
-# RUN pip3 install jupyterlab
-RUN pip3 install jupyter
+RUN pip3 install jupyterlab
 RUN sed -i 's!"language": "python"!"language": "python", "env": { "PYTHONPATH": "${PYTHONPATH}:/amber/amber20/lib/python3.8/site-packages" }!g' /usr/local/share/jupyter/kernels/python3/kernel.json
 
 # JupyterLab themes
-# RUN curl -s -L https://deb.nodesource.com/setup_14.x | bash
-# RUN apt-get install -y nodejs
-# RUN jupyter labextension install @arbennett/base16-monokai @arbennett/base16-nord @arbennett/base16-one-dark
-
-# Libs
-RUN pip3 install pandas seaborn nglview==2.7.7
-# RUN jupyter labextension install nglview-js-widgets
-RUN jupyter-nbextension enable nglview --py --sys-prefix
+RUN curl -s -L https://deb.nodesource.com/setup_14.x | bash
+RUN apt-get install -y nodejs
+RUN jupyter labextension install @arbennett/base16-monokai @arbennett/base16-nord @arbennett/base16-one-dark
 
 ENV SHELL /bin/bash
 
-COPY run.sh /run.sh
-RUN chmod +x /run.sh
-
+# User
 RUN useradd -m -s /bin/bash user
 ADD default-settings/ /home/user/.jupyter
 WORKDIR /home/user
@@ -54,5 +46,12 @@ RUN apt-get install -y sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN usermod -aG sudo user
 
+# Libs
+RUN pip3 install pandas seaborn nglview
+RUN jupyter-nbextension enable nglview --py --sys-prefix
+
+
+COPY run.sh /run.sh
+RUN chmod +x /run.sh
 
 ENTRYPOINT /run.sh
