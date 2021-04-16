@@ -6,7 +6,6 @@ MAINTAINER Mauro Song <mauronicolassong@gmail.com>
 # ENV http_proxy http://proxy.fcen.uba.ar:8080
 
 RUN apt-get update
-RUN apt-get update
 RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata locales
 
 # Amber 20
